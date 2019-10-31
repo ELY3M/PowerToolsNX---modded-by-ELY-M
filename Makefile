@@ -31,8 +31,8 @@ include $(DEVKITPRO)/libnx/switch_rules
 #     - <libnx folder>/default_icon.jpg
 #---------------------------------------------------------------------------------
 APP_TITLE := PowerToolsNX
-APP_AUTHOR := CVFD
-APP_VERSION := 1.0
+APP_AUTHOR := CVFD - Modded by ELY M.
+APP_VERSION := 1.3
 APP_TITLEID := 01040207060001112
 ICON := icon.jpg
 

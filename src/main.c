@@ -7,11 +7,11 @@
 int main(int argc, char **argv)
 {
 	
-    gfxInitDefault();
 	consoleInit(NULL);
-	printf("PowerToolsNX v0.2 - By CVFD\n");
+	printf("PowerToolsNX v0.3 - By CVFD - Modded by ELY M.\n");
 	printf("Press A to shutdown, B to reboot\n");
-	printf("or X to reboot into RCM (DO NOT USE ON EXFAT)");
+	printf("or X to reboot into RCM (DO NOT USE ON EXFAT)\n");
+	printf("or + to exit to hbmenu");
 	
 	while(appletMainLoop())
     {
@@ -32,19 +32,31 @@ int main(int argc, char **argv)
 		
 		if(kDown & KEY_X)
 		{
-        Result rc = splInitialize();
+		
+		Result rc = splInitialize();
+		if (R_FAILED(rc)) {
+		printf("splInitialize failed!\nPress + to exit.\n");
+		} else {
 		rc = splSetConfig ((SplConfigItem) 65001, 1);
-			
+		if (R_FAILED(rc)) {
+			printf("splInitialize failed!\nPress + to exit.\n");
+		}
 		}
 		
-        if (kDown & KEY_PLUS) break;
 		
-        gfxFlushBuffers();
-        gfxSwapBuffers();
-        gfxWaitForVsync();
+		}
+		
+        if (kDown & KEY_PLUS) { break;  } 
+		if (kDown & KEY_MINUS) { break;  } 
+		
+		consoleUpdate(NULL);
+		
     }
 
-    consoleExit(NULL);		
-    gfxExit();
+
+
+
+    consoleExit(NULL);
     return 0;
+	
 }
