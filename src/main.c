@@ -13,24 +13,29 @@ int main(int argc, char **argv)
 	printf("or X to reboot into RCM (DO NOT USE ON EXFAT)\n");
 	printf("or + to exit to hbmenu");
 	
+	padConfigureInput(1, HidNpadStyleSet_NpadStandard);
+	PadState pad;
+	padInitializeDefault(&pad);
+		
 	while(appletMainLoop())
     {
-        hidScanInput();
+		
+        padUpdate(&pad);
+        u64 kDown = padGetButtonsDown(&pad);	
 
-        u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
-		if(kDown & KEY_B)
+		if(kDown & HidNpadButton_B)
 		{
         bpcInitialize();
         bpcRebootSystem();
 		}
 		
-		if(kDown & KEY_A)
+		if(kDown & HidNpadButton_A)
 		{
         bpcInitialize();
         bpcShutdownSystem();
 		}
 		
-		if(kDown & KEY_X)
+		if(kDown & HidNpadButton_X)
 		{
 		
 		Result rc = splInitialize();
@@ -46,15 +51,12 @@ int main(int argc, char **argv)
 		
 		}
 		
-        if (kDown & KEY_PLUS) { break;  } 
-		if (kDown & KEY_MINUS) { break;  } 
+        if (kDown & HidNpadButton_Plus) { break;  } 
+		if (kDown & HidNpadButton_Minus) { break;  } 
 		
 		consoleUpdate(NULL);
 		
     }
-
-
-
 
     consoleExit(NULL);
     return 0;
